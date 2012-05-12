@@ -1,8 +1,15 @@
+# Resque tasks
 require 'resque/tasks'
+require 'resque_scheduler/tasks'
+#require 'resque'
+#require 'resque_scheduler'
+#require 'resque/scheduler'
 
 namespace :resque do
   task setup: :environment do
     Resque.before_fork = Proc.new { ActiveRecord::Base.establish_connection }
+    #Resque.redis = 'localhost:6379'
+    #Resque.schedule = YAML.load_file("#{Rails.root}/config/resque_schedule.yml")
   end
 
   desc "Resque | kill all workers (using -QUIT), god will take care of them"

@@ -97,6 +97,9 @@ gem 'settingslogic'
 gem "foreman"
 gem "git"
 
+# add resque-scheduler
+gem 'resque-scheduler', :require => 'resque_scheduler'
+
 group :assets do
   gem "sass-rails",   "~> 3.2.5"
   gem "coffee-rails", "~> 3.2.2"

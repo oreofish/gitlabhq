@@ -1,0 +1,6 @@
+DailyMail:
+  cron: 00 23 * * *
+  class: DailyMail
+  queue: mailer
+  args: 
+  description: Send daily mail

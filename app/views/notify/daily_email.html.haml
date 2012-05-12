@@ -1,0 +1,33 @@
+%td.content{:align => "left", :style => "font-family: Helvetica, Arial, sans-serif; padding: 20px 0 0;", :valign => "top", :width => "600"}
+  %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "color: #717171; font: normal 11px Helvetica, Arial, sans-serif; margin: 0; padding: 0;", :width => "600"}
+    %tr
+      %td{:style => "font-size: 1px; line-height: 1px;", :width => "21"}
+      %td{:align => "left", :style => "padding: 20px 0 0;"}
+        %h2{:style => "color:#646464; font-weight: bold; margin: 0; padding: 0; line-height: 26px; font-size: 18px; font-family: Helvetica, Arial, sans-serif; "}
+          Done Issues Today
+      %td{:style => "font-size: 1px; line-height: 1px;", :width => "21"}
+    %tr
+      %td{:style => "font-size: 1px; line-height: 1px;", :width => "21"}
+      %td{:style => "padding: 15px 0 15px;", :valign => "top"}
+        %p{:style => "color:#767676; font-weight: normal; margin: 0; padding: 0; line-height: 20px; font-size: 12px;font-family: Helvetica, Arial, sans-serif; "}
+          - @issues.each do |issue|
+            = link_to truncate(issue.title, :length => 60), project_issue_url(Project.find(issue.project_id), issue)
+            = User.find(issue.assignee_id).name
+            %br
+      %td
+    %tr
+      %td{:style => "font-size: 1px; line-height: 1px;", :width => "21"}
+      %td{:align => "left", :style => "padding: 20px 0 0;"}
+        %h2{:style => "color:#646464; font-weight: bold; margin: 0; padding: 0; line-height: 26px; font-size: 18px; font-family: Helvetica, Arial, sans-serif; "}
+          Done Merge Requests Today
+      %td{:style => "font-size: 1px; line-height: 1px;", :width => "21"}
+    %tr
+      %td{:style => "font-size: 1px; line-height: 1px;", :width => "21"}
+      %td{:style => "padding: 15px 0 15px;", :valign => "top"}
+        %p{:style => "color:#767676; font-weight: normal; margin: 0; padding: 0; line-height: 20px; font-size: 12px;font-family: Helvetica, Arial, sans-serif; "}
+          - @merges.each do |merge|
+            = link_to truncate(merge.title, :length => 60), project_merge_requests_url(Project.find(merge.project_id), merge)
+            = User.find(merge.author_id).name
+            %br
+      %td
+

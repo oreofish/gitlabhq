@@ -159,4 +159,12 @@ class Notify < ActionMailer::Base
     subject << " | " + extra.join(' | ') if extra.present?
     subject
   end
+
+  def daily_email(user)
+    beginning_of_today = Date.today.to_datetime.to_formatted_s(:db)
+    @issues = Issue.where("updated_at > ?", beginning_of_today).where("closed = ?", true)
+    @merges = MergeRequest.where("updated_at > ?", beginning_of_today).where("closed = ?", true)
+    return if @issues.count + @merges.count == 0
+    mail(:to => User.all.collect{|user| user.email }, :subject => "gitlab | daily report")
+  end
 end
