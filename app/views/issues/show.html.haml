@@ -29,6 +29,9 @@
     %h4.box-title
       - if @issue.closed
         .error.status_info Closed
+      - if current_user == @issue.assignee and can? current_user, :write_issue, @project
+        = link_to new_project_merge_request_path(@project) + "?issue=#{@issue.id}", :class => "right btn small", :title => "New Merge Request" do 
+          New Merge Request
       = gfm escape_once(@issue.title)
 
   .ui-box-body

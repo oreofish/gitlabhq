@@ -37,6 +37,8 @@ class MergeRequestsController < ProjectResourceController
 
   def new
     @merge_request = @project.merge_requests.new(params[:merge_request])
+    issue = Issue.find(params[:issue])
+    @merge_request.title = "(##{issue.id})#{issue.title}"
   end
 
   def edit

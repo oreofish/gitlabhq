@@ -157,6 +157,12 @@ class MergeRequest < ActiveRecord::Base
     self.merged = true
     self.closed = true
     save
+
+    # close linked issue
+    match = /\(#(\d*)\)/.match(self.title)
+    issue_id = match[1].to_i if match and match.size >= 2
+    issue = Issue.find(issue_id)
+    issue.update_attributes(:closed => true)
   end
 
   def mark_as_unmergable
