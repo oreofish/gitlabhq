@@ -1,5 +1,5 @@
 DailyMail:
-  cron: 00 23 * * *
+  cron: 00 22 * * *
   class: DailyMail
   queue: mailer
   args: 

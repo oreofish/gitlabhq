@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Notify < ActionMailer::Base
   include Resque::Mailer
   add_template_helper ApplicationHelper
@@ -154,7 +155,7 @@ class Notify < ActionMailer::Base
   #   >> subject('Lorem ipsum', 'Dolor sit amet')
   #   => "GitLab | Lorem ipsum | Dolor sit amet"
   def subject(*extra)
-    subject = "GitLab"
+    subject = ""
     subject << (@project ? " | #{@project.name_with_namespace}" : "")
     subject << " | " + extra.join(' | ') if extra.present?
     subject
@@ -165,6 +166,6 @@ class Notify < ActionMailer::Base
     @issues = Issue.where("updated_at > ?", beginning_of_today).where("closed = ?", true)
     @merges = MergeRequest.where("updated_at > ?", beginning_of_today).where("closed = ?", true)
     return if @issues.count + @merges.count == 0
-    mail(:to => User.all.collect{|user| user.email }, :subject => "gitlab | daily report")
+    mail(:to => User.all.collect{|user| user.email }, :subject => "GIT Daily Report for #{Date.today.to_s}")
   end
 end
