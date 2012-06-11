@@ -21,16 +21,16 @@
         Edit
 
   - if issue.assignee
-    = image_tag gravatar_icon(issue.assignee_email), class: "avatar"
+    = image_tag gravatar_icon(issue.assignee_email), class: "lil_av", width: "26"
   - else
-    = image_tag "no_avatar.png", class: "avatar"
+    = image_tag "no_avatar.png", class: "lil_av", width: "26"
 
   %p= link_to_gfm truncate(issue.title, length: 100), project_issue_path(issue.project, issue), class: "row_title"
 
   %span.update-author
     %span.cdark= "##{issue.id}"
     - if issue.assignee
-      assigned to #{issue.assignee_name}
+      #{issue.assignee_name}
     - else
       &nbsp;
 
