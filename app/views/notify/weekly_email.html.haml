@@ -4,7 +4,7 @@
       %td{:style => "font-size: 1px; line-height: 1px;", :width => "21"}
       %td{:align => "left", :style => "padding: 20px 0 0;"}
         %h2{:style => "color:#646464; font-weight: bold; margin: 0; padding: 0; line-height: 26px; font-size: 18px; font-family: Helvetica, Arial, sans-serif; "}
-          Done Issues Yesterday
+          Done Issues Of Last Week
       %td{:style => "font-size: 1px; line-height: 1px;", :width => "21"}
     %tr
       %td{:style => "font-size: 1px; line-height: 1px;", :width => "21"}
@@ -18,16 +18,9 @@
     %tr
       %td{:style => "font-size: 1px; line-height: 1px;", :width => "21"}
       %td{:align => "left", :style => "padding: 20px 0 0;"}
-        %h2{:style => "color:#646464; font-weight: bold; margin: 0; padding: 0; line-height: 26px; font-size: 18px; font-family: Helvetica, Arial, sans-serif; "}
-          Done Merge Requests Yesterday
+        %p{:style => "color:#646464; font-weight: bold; margin: 0; padding: 0; line-height: 26px; font-size: 18px; font-family: Helvetica, Arial, sans-serif; "}
+          = @freeman
+          have nothing done last week.
       %td{:style => "font-size: 1px; line-height: 1px;", :width => "21"}
     %tr
-      %td{:style => "font-size: 1px; line-height: 1px;", :width => "21"}
-      %td{:style => "padding: 15px 0 15px;", :valign => "top"}
-        %p{:style => "color:#767676; font-weight: normal; margin: 0; padding: 0; line-height: 20px; font-size: 12px;font-family: Helvetica, Arial, sans-serif; "}
-          - @merges.each do |merge|
-            = User.find(merge.author_id).name if merge.author_id
-            = link_to truncate(merge.title, :length => 60), project_merge_requests_url(Project.find(merge.project_id), merge)
-            %br
-      %td
 
