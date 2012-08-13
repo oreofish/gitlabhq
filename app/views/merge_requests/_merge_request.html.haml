@@ -23,7 +23,7 @@
   %p= link_to_gfm truncate(merge_request.title, length: 80), project_merge_request_path(merge_request.project, merge_request), class: "row_title"
 
   %span.update-author
-    %small.cdark= "##{merge_request.id}"
+    %small.cdark= "MR#{merge_request.id}"
     authored by #{merge_request.author_name}
     = time_ago_in_words(merge_request.created_at)
     ago
