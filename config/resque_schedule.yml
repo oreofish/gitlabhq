@@ -10,4 +10,11 @@ WeeklyMail:
   class: WeeklyMail
   queue: mailer
   args: 
-  description: Send daily mail
+  description: Send weekly mail
+
+WeeklyMilestone:
+  cron: 00 08 * * 1
+  class: WeeklyMilestone
+  queue: mailer
+  args: 
+  description: Auto create milestone and tag every week
