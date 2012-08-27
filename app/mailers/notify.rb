@@ -122,6 +122,26 @@ class Notify < ActionMailer::Base
     mail(to: @user.email, subject: subject("Account was created for you"))
   end
 
+  def daily_email(user)
+    beginning_of_yesterday = Date.yesterday.beginning_of_day.to_formatted_s(:db)
+    end_of_yesterday = Date.yesterday.end_of_day.to_formatted_s(:db)
+    @issues = Issue.where("updated_at > ? and updated_at < ?", beginning_of_yesterday, end_of_yesterday).where("closed = ?", true).order('assignee_id')
+    @merges = MergeRequest.where("updated_at > ? and updated_at < ?", beginning_of_yesterday, end_of_yesterday).where("closed = ?", true).order('assignee_id')
+    return if @issues.count + @merges.count == 0
+    mail(:to => User.all.collect{|user| user.email }, :subject => "GIT Daily Report for #{Date.yesterday.to_s}", :from => "dtreport@redflag-linux.com")
+  end
+
+  def weekly_email(user)
+    yesterday = Date.yesterday
+    beginning_of_last_week = yesterday.beginning_of_week.to_datetime.to_formatted_s(:db)
+    end_of_last_week = yesterday.end_of_week.to_datetime.to_formatted_s(:db)
+    @issues = Issue.where("updated_at > ? and updated_at < ?", beginning_of_last_week, end_of_last_week).where("closed = ?", true).order('assignee_id')
+    @merges = MergeRequest.where("updated_at > ? and updated_at < ?", beginning_of_last_week, end_of_last_week).where("closed = ?", true).order('assignee_id')
+    users_with_done = @issues.collect{|iss| iss.assignee_id }
+    @freeman = User.all.select{|u| not users_with_done.include?(u.id) }.collect{|u| u.name }.join(", ")
+    subject = "GIT Weekly Report for #{yesterday.year}-W#{yesterday.cweek}(#{yesterday.beginning_of_week.to_formatted_s(:short)} to #{yesterday.end_of_week.to_formatted_s(:short)})"
+    mail(:to => User.all.collect{|user| user.email }, :subject => subject, :from => "dtreport@redflag-linux.com")
+  end
 
   private
 
@@ -167,26 +187,5 @@ class Notify < ActionMailer::Base
     subject << (@project ? " | #{@project.name_with_namespace}" : "")
     subject << " | " + extra.join(' | ') if extra.present?
     subject
-  end
-
-  def daily_email(user)
-    beginning_of_yesterday = Date.yesterday.beginning_of_day.to_formatted_s(:db)
-    end_of_yesterday = Date.yesterday.end_of_day.to_formatted_s(:db)
-    @issues = Issue.where("updated_at > ? and updated_at < ?", beginning_of_yesterday, end_of_yesterday).where("closed = ?", true).order('assignee_id')
-    @merges = MergeRequest.where("updated_at > ? and updated_at < ?", beginning_of_yesterday, end_of_yesterday).where("closed = ?", true).order('assignee_id')
-    return if @issues.count + @merges.count == 0
-    mail(:to => User.all.collect{|user| user.email }, :subject => "GIT Daily Report for #{Date.yesterday.to_s}", :from => "dtreport@redflag-linux.com")
-  end
-
-  def weekly_email(user)
-    yesterday = Date.yesterday
-    beginning_of_last_week = yesterday.beginning_of_week.to_datetime.to_formatted_s(:db)
-    end_of_last_week = yesterday.end_of_week.to_datetime.to_formatted_s(:db)
-    @issues = Issue.where("updated_at > ? and updated_at < ?", beginning_of_last_week, end_of_last_week).where("closed = ?", true).order('assignee_id')
-    @merges = MergeRequest.where("updated_at > ? and updated_at < ?", beginning_of_last_week, end_of_last_week).where("closed = ?", true).order('assignee_id')
-    users_with_done = @issues.collect{|iss| iss.assignee_id }
-    @freeman = User.all.select{|u| not users_with_done.include?(u.id) }.collect{|u| u.name }.join(", ")
-    subject = "GIT Weekly Report for #{yesterday.year}-W#{yesterday.cweek}(#{yesterday.beginning_of_week.to_formatted_s(:short)} to #{yesterday.end_of_week.to_formatted_s(:short)})"
-    mail(:to => User.all.collect{|user| user.email }, :subject => subject, :from => "dtreport@redflag-linux.com")
   end
 end
