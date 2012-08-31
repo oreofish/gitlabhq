@@ -44,7 +44,7 @@ class MailerObserver < ActiveRecord::Observer
       cc_users_ids = all_users_ids - to_users_ids
       Notify.note_issue_email(to_users_ids, cc_users_ids, note.id).deliver
     when "Wiki"
-      Notify.note_wiki_email(u.id, note.id).deliver
+      Notify.note_wiki_email(all_users_ids, note.id).deliver
     when "MergeRequest"
       to_users_ids = [note.noteable.assignee_id, note.noteable.author_id].uniq
       cc_users_ids = all_users_ids - to_users_ids
@@ -52,7 +52,7 @@ class MailerObserver < ActiveRecord::Observer
     when "Snippet"
       true
     else
-      Notify.note_wall_email(u.id, note.id).deliver
+      Notify.note_wall_email(all_users_ids, note.id).deliver
     end
   end
 

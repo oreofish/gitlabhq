@@ -86,11 +86,19 @@ class Notify < ActionMailer::Base
     mail(to: recipient(recipient_ids), cc: recipient(cc_ids), subject: subject("note for merge request !#{@merge_request.id}"))
   end
 
-  def note_wall_email(recipient_id, note_id)
+  def note_wall_email(recipient_ids, cc_ids, note_id)
     @note = Note.find(note_id)
     @project = @note.project
     mail(to: recipient(recipient_ids), cc: recipient(cc_ids), subject: subject("note on wall"))
   end
+
+  def note_wiki_email(recipient_ids, note_id)
+    @note = Note.find(note_id)
+    @wiki = @note.noteable
+    @project = @note.project
+    mail(to: recipient(recipient_ids), subject: subject("note for wiki"))
+  end
+
 
 
   #

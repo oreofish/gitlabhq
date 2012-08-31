@@ -22,7 +22,7 @@ class WeeklyMilestone
     autotag = Gitlab::Tag.new(user)
     projects.each do |project|
       # auto add 
-      autotag.push(project, 'develop', "pg#{prev_end.strftime("%m%d")}")
+      autotag.push(project, 'master', "pg#{prev_end.strftime("%m%d")}")
     end
   end
 end
