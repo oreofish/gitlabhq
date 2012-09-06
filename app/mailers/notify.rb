@@ -136,7 +136,9 @@ class Notify < ActionMailer::Base
     @issues = Issue.where("updated_at > ? and updated_at < ?", beginning_of_yesterday, end_of_yesterday).where("closed = ?", true).order('assignee_id')
     @merges = MergeRequest.where("updated_at > ? and updated_at < ?", beginning_of_yesterday, end_of_yesterday).where("closed = ?", true).order('assignee_id')
     return if @issues.count + @merges.count == 0
-    mail(:to => User.all.collect{|user| user.email }, :subject => "GIT Daily Report for #{Date.yesterday.to_s}", :from => "dtreport@redflag-linux.com")
+    project = Project.find_by_path("qomo-linux")
+    regular_users = project.users.select { |u| project.report_access_for?(u) }
+    mail(:to => regular_users.collect{|user| user.email }, :subject => "GIT Daily Report for #{Date.yesterday.to_s}", :from => "dtreport@redflag-linux.com")
   end
 
   def weekly_email(user)
@@ -146,9 +148,11 @@ class Notify < ActionMailer::Base
     @issues = Issue.where("updated_at > ? and updated_at < ?", beginning_of_last_week, end_of_last_week).where("closed = ?", true).order('assignee_id')
     @merges = MergeRequest.where("updated_at > ? and updated_at < ?", beginning_of_last_week, end_of_last_week).where("closed = ?", true).order('assignee_id')
     users_with_done = @issues.collect{|iss| iss.assignee_id }
-    @freeman = User.all.select{|u| not users_with_done.include?(u.id) }.collect{|u| u.name }.join(", ")
     subject = "GIT Weekly Report for #{yesterday.year}-W#{yesterday.cweek}(#{yesterday.beginning_of_week.to_formatted_s(:short)} to #{yesterday.end_of_week.to_formatted_s(:short)})"
-    mail(:to => User.all.collect{|user| user.email }, :subject => subject, :from => "dtreport@redflag-linux.com")
+    project = Project.find_by_path("qomo-linux")
+    regular_users = project.users.select { |u| project.report_access_for?(u) }
+    @freeman = regular_users.select{|u| not users_with_done.include?(u.id) }.collect{|u| u.name }.join(", ")
+    mail(:to => regular_users.collect{|user| user.email }, :subject => subject, :from => "dtreport@redflag-linux.com")
   end
 
   private
