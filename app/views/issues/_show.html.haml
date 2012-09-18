@@ -34,3 +34,6 @@
 
     - if issue.votes_count > 0
       = render 'votes/votes_inline', votable: issue
+
+  %span= link_to_gfm truncate(issue.title, length: 100), project_issue_path(issue.project, issue), class: "row_title"
+
