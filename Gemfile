@@ -1,4 +1,4 @@
-source "http://rubygems.org"
+source "http://ruby.taobao.org"
 
 def darwin_only(require_as)
   RUBY_PLATFORM.include?('darwin') && require_as
@@ -118,7 +118,7 @@ group :assets do
 end
 
 group :development do
-  gem "annotate", git: "https://github.com/ctran/annotate_models.git"
+  gem "annotate", git: "git://github.com/ctran/annotate_models.git"
   gem "letter_opener"
   gem 'quiet_assets', '~> 1.0.1'
   gem 'rack-mini-profiler'

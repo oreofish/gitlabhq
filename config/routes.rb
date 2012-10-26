@@ -89,9 +89,9 @@ Gitlab::Application.routes.draw do
   #
   # Dashboard Area
   #
-  get "dashboard"                => "dashboard#index"
-  get "dashboard/issues"         => "dashboard#issues"
-  get "dashboard/merge_requests" => "dashboard#merge_requests"
+  get "dashboard"                   => "dashboard#index"
+  get "dashboard/issues"            => "dashboard#issues"
+  get "dashboard/merge_requests"    => "dashboard#merge_requests"
 
 
   #

@@ -42,7 +42,11 @@ class DashboardController < ApplicationController
 
   # Get only assigned issues
   def issues
-    @issues = current_user.assigned_issues
+    user_id = current_user.id
+    user_id = params[:user].to_i if params[:user]
+    @user   = User.find(user_id)
+    @projects = @user.projects.all
+    @issues = @user.assigned_issues
     @issues = dashboard_filter(@issues)
     @issues = @issues.recent.page(params[:page]).per(20)
     @issues = @issues.includes(:author, :project)

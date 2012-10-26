@@ -1,7 +1,13 @@
 %h3.page_title
   Issues
-  %small (assigned to you)
-  %small.right #{@issues.total_count} issues
+
+%br
+- User.all.each do |user|
+  = link_to "/dashboard/issues?user=#{user.id}" do
+    = image_tag gravatar_icon(user.email), class: "lil_av", width: "26"
+  - @userissues = user.assigned_issues.opened
+  - @userissues = @userissues.includes(:author, :project)
+%br
 
 %hr
 
