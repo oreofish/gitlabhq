@@ -36,10 +36,10 @@ gem 'gitlab_yaml_db', '1.0.0', require: "yaml_db"
 gem "gitolite", '1.1.0'
 
 # Syntax highlighter
-gem "pygments.rb",  git: "https://github.com/gitlabhq/pygments.rb.git", branch: "master"
+gem "pygments.rb",   :git => "git://github.com/gitlabhq/pygments.rb.git",     :ref => "2cada028da5054616634a1d9ca6941b65b3ce188"
 
 # Language detection
-gem "github-linguist", "~> 2.3.4" , require: "linguist"
+gem "linguist", "~> 1.0.0", :git => "git://github.com/gitlabhq/linguist.git"
 
 # API
 gem "grape", "~> 0.2.1"
