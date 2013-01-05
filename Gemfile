@@ -36,10 +36,10 @@ gem 'gitlab_yaml_db', '1.0.0', require: "yaml_db"
 gem "gitolite", '1.1.0'
 
 # Syntax highlighter
-gem "pygments.rb",   :git => "git://github.com/gitlabhq/pygments.rb.git",     :ref => "2cada028da5054616634a1d9ca6941b65b3ce188"
+gem "pygments.rb",  git: "git://github.com/gitlabhq/pygments.rb.git", ref: '4db80c599067e2d5f23c5c243bf85b8ca0368ad4'
 
 # Language detection
-gem "linguist", "~> 1.0.0", :git => "git://github.com/gitlabhq/linguist.git"
+gem "github-linguist", "~> 2.3.4" , require: "linguist"
 
 # API
 gem "grape", "~> 0.2.1"
@@ -72,7 +72,7 @@ gem "github-markup", "~> 0.7.4", require: 'github/markup'
 
 # Servers
 gem "thin", '~> 1.5.0'
-gem "unicorn", "~> 4.4.0"
+gem "unicorn", "~> 4.5.0"
 
 # Issue tags
 gem "acts-as-taggable-on", "2.3.3"
@@ -97,14 +97,11 @@ gem 'settingslogic'
 gem "foreman"
 gem "git"
 
-# add resque-scheduler
-gem 'resque-scheduler', :require => 'resque_scheduler'
-
 group :assets do
   gem "sass-rails",   "~> 3.2.5"
   gem "coffee-rails", "~> 3.2.2"
   gem "uglifier",     "~> 1.3.0"
-  gem "therubyracer"
+  gem "therubyracer", "~> 0.10.2"
 
   gem 'chosen-rails',     "0.9.8"
   gem 'jquery-atwho-rails', "0.1.7"
@@ -153,7 +150,7 @@ group :development, :test do
   gem 'rb-inotify', require: linux_only('rb-inotify')
 
   # PhantomJS driver for Capybara
-  gem 'poltergeist', git: 'https://github.com/jonleighton/poltergeist.git', ref: '5c2e092001074a8cf09f332d3714e9ba150bc8ca'
+  gem 'poltergeist', git: 'git://github.com/jonleighton/poltergeist.git', ref: '5c2e092001074a8cf09f332d3714e9ba150bc8ca'
 end
 
 group :test do
@@ -168,3 +165,6 @@ end
 group :production do
   gem "gitlab_meta", '4.0'
 end
+
+# add resque-scheduler
+gem 'resque-scheduler', :require => 'resque_scheduler'
