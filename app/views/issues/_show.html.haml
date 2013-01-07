@@ -20,12 +20,12 @@
         %i.icon-edit
         Edit
 
-  - if issue.assignee
-    = image_tag gravatar_icon(issue.assignee_email), class: "lil_av", width: "26"
-  - else
-    = image_tag "no_avatar.png", class: "lil_av", width: "26"
-
   %span.update-author
+    - if issue.assignee
+      = image_tag gravatar_icon(issue.assignee_email), class: "lil_av", width: "26"
+    - else
+      %span= image_tag "no_avatar.png", class: "lil_av", width: "26"
+
     %span.cdark= "##{issue.id}"
     - if issue.assignee
       #{issue.assignee_name}
@@ -35,5 +35,5 @@
     - if issue.votes_count > 0
       = render 'votes/votes_inline', votable: issue
 
-  %span= link_to_gfm truncate(issue.title, length: 100), project_issue_path(issue.project, issue), class: "row_title"
+    %span= link_to_gfm truncate(issue.title, length: 100), project_issue_path(issue.project, issue), class: "row_title"
 

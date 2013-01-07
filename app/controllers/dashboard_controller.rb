@@ -45,8 +45,9 @@ class DashboardController < ApplicationController
     user_id = current_user.id
     user_id = params[:user].to_i if params[:user]
     @user   = User.find(user_id)
-    @projects = @user.projects.all
+    @projects = @projects.joined(@user)
     @issues = @user.assigned_issues
+    @issues_count = @issues.count()
     @issues = dashboard_filter(@issues)
     @issues = @issues.recent.page(params[:page]).per(20)
     @issues = @issues.includes(:author, :project)
